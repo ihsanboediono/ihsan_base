@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Award;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class AwardController extends Controller
 {
@@ -39,20 +41,33 @@ class AwardController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name_id' => ['required'],
-            'name_en' => ['required'],
-            'description_id' => ['required'],
-            'description_en' => ['required'],
-            'image'=>['image','file','max:1024'],
-        ]);
+        
+        Validator::make(
+            $request->all(),
+            [
+                'name_id' => ['required'],
+                'description_id' => ['required'],
+                'image'=>['required','image','file','max:1024'],
+                // 'name_en' => ['required'],
+                // 'description_en' => ['required'],
+                
+            ],
+            [],
+            [
+                'name_id'=> __('attributes.name_id'),
+                'description_id' => __('attributes.description_id'),
+                'image' => __('attributes.image'),
+                // 'name_en'=> __('attributes.name_en'),
+                // 'description_en' => __('attributes.description_en'),
+            ],
+        )->validate();
         
 
         $insert = Award::create([
             'name_id' => $request->name_id,
-            'name_en' => $request->name_en,
+            // 'name_en' => $request->name_en,
             'description_id' => $request->description_id,
-            'description_en' => $request->description_en,
+            // 'description_en' => $request->description_en,
             'image' => !empty($request->file('image')) ? $request->file('image')->store('award') : 'award/default.png',
             'date' => date('Y-m-d H:i:s')
         ]);
@@ -97,24 +112,33 @@ class AwardController extends Controller
      */
     public function update(Request $request, Award $award)
     {
-        $request->validate([
-            'name_id' => ['required'],
-            'name_en' => ['required'],
-            'description_id' => ['required'],
-            'description_en' => ['required'],
-        ]);
-
-        if ($request->file('image')) {
-            $request->validate([
+        
+        Validator::make(
+            $request->all(),
+            [
+                'name_id' => ['required'],
+                'description_id' => ['required'],
                 'image'=>['image','file','max:1024'],
-            ]);
-        }
+                // 'name_en' => ['required'],
+                // 'description_en' => ['required'],
+                
+            ],
+            [],
+            [
+                'name_id'=> __('attributes.name_id'),
+                'description_id' => __('attributes.description_id'),
+                'image' => __('attributes.image'),
+                // 'name_en'=> __('attributes.name_en'),
+                // 'description_en' => __('attributes.description_en'),
+            ],
+        )->validate();
+
 
         $data = [
             'name_id' => $request->name_id,
-            'name_en' => $request->name_en,
+            // 'name_en' => $request->name_en,
             'description_id' => $request->description_id,
-            'description_en' => $request->description_en,
+            // 'description_en' => $request->description_en,
             'date' => date('Y-m-d H:i:s')
         ];
         if ($request->file('image')) {
@@ -152,5 +176,10 @@ class AwardController extends Controller
         }
         
         echo json_encode($response);
+    }
+
+    public function data()
+    {
+        return DataTables::of(Award::latest())->make(true);
     }
 }
