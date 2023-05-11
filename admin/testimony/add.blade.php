@@ -70,7 +70,7 @@
                                         </div>
                                         @error('image') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
-                                    <button class="btn btn-primary btn-rounded">Edit penghargaan</button>
+                                    <button class="btn btn-primary btn-rounded">Edit Testimoni</button>
                                     <a href="{{ route('admin.testimony.index') }}" class="btn btn-warning btn-rounded ml-2">Kembali</a>
 
                                 </form>
