@@ -1,6 +1,6 @@
 {{-- call header and footer --}}
 @extends('admin.layouts.main')
-@section('title', 'Edit penghargaan')
+@section('title', 'Edit Testimony')
 
 @section('content')
 
@@ -71,7 +71,7 @@
                                         @error('image') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                     <button class="btn btn-primary btn-rounded">Edit penghargaan</button>
-                                    <a href="{{ route('admin.award.index') }}" class="btn btn-warning btn-rounded ml-2">Kembali</a>
+                                    <a href="{{ route('admin.testimony.index') }}" class="btn btn-warning btn-rounded ml-2">Kembali</a>
 
                                 </form>
 								</div>
