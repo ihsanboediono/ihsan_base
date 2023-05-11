@@ -1,6 +1,6 @@
 {{-- call header and footer --}}
 @extends('admin.layouts.main')
-@section('title', 'Tambah Testimoni')
+@section('title', 'Edit Testimony')
 
 @section('content')
 
@@ -28,29 +28,30 @@
 						<div class="col-md-8">
 							<div class="card">
                                 <div class="card-header card-info">
-                                    <div class="card-title">Form tambah Testimoni</div>
+                                    <div class="card-title">Form edit Testimoni</div>
                                 </div>
 								<div class="card-body">
-                                <form action="{{ route('admin.testimony.store') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.testimony.update', ['testimony' => $testimony->id]) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    @method('put')
                                     <div class="form-group">
                                         <label for="nama">Nama</label>
-                                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="{{ old('nama') }}">
+                                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="{{ old('nama', $testimony->name) }}">
                                         @error('nama') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="jabatan">Jabatan</label>
-                                        <input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Jabatan" value="{{ old('jabatan') }}">
+                                        <input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Jabatan" value="{{ old('jabatan', $testimony->position) }}">
                                         @error('jabatan') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="perusahaan">Perusahaan</label>
-                                        <input type="text" class="form-control" id="perusahaan" name="perusahaan" placeholder="Perusahaan" value="{{ old('perusahaan') }}">
+                                        <input type="text" class="form-control" id="perusahaan" name="perusahaan" placeholder="Perusahaan" value="{{ old('perusahaan', $testimony->company) }}">
                                         @error('perusahaan') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="testimony_id">Testimoni</label>
-                                        <textarea class="form-control" id="editor1" rows="5" name="testimony_id" placeholder="">{{ old('testimony_id') }}</textarea>
+                                        <textarea class="form-control" id="editor1" rows="5" name="testimony_id" placeholder="">{{ old('testimony_id', $testimony->testimony_id) }}</textarea>
                                         @error('testimony_id') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                     {{-- <div class="form-group">
@@ -59,8 +60,8 @@
                                         @error('testimony_en') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div> --}}
                                     <div class="form-group col-md-4">
-                                        <label>Gambar</label>
-                                        <img class="img-preview img-fluid mb-2">
+                                        <p style="font-weight: 600">Gambar</p>
+                                        <img src="{{ $testimony->image_url }}" class="img-preview img-fluid mb-3">
                                         <p id="file-name"></p>
                                         <label class="image-label" for="image"><i class="fas fa-file-upload"></i><span>Cari File</span></label>
                                         <input type="file" class="form-control-file" id="image" name="image" onchange="previewImage()">
@@ -69,10 +70,9 @@
                                         </div>
                                         @error('image') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
-                                    <div>
-                                        <button class="btn btn-primary btn-rounded">Tambah Testimoni </button>
-                                        <a href="{{ route('admin.testimony.index') }}" class="btn btn-warning btn-rounded ml-2">Kembali</a>
-                                    </div>
+                                    <button class="btn btn-primary btn-rounded">Edit penghargaan</button>
+                                    <a href="{{ route('admin.testimony.index') }}" class="btn btn-warning btn-rounded ml-2">Kembali</a>
+
                                 </form>
 								</div>
 							</div>
